@@ -12,12 +12,11 @@
 :root[data-theme="dark"]{ --bg:#0a0d26; }
 html,body{margin:0;height:100%;overflow:hidden;background:var(--sky,var(--bg));}
 canvas{position:fixed;display:block;image-rendering:pixelated;image-rendering:crisp-edges;}
-.gh{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:2;
-  display:flex;align-items:center;justify-content:center;width:44px;height:44px;background:rgba(10,13,38,.62);color:#eef1ff;
-  border:2px solid rgba(238,241,255,.85);box-shadow:3px 3px 0 rgba(0,0,0,.35);transition:background .15s,color .15s;}
-.gh:hover{background:#ffd23f;color:#161a3d;border-color:#ffd23f;}
-.gh:focus-visible{outline:3px solid #ffd23f;outline-offset:3px;}
-.gh svg{width:24px;height:24px;display:block;}
+.gh{position:fixed;right:calc(8px + env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:2;
+  display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;opacity:.72;transition:opacity .15s;}
+.gh:hover{opacity:1;}
+.gh:focus-visible{opacity:1;outline:3px solid #ffd23f;outline-offset:2px;}
+.gh img{display:block;image-rendering:pixelated;image-rendering:crisp-edges;width:27px;height:27px;}
 @media (prefers-reduced-motion: reduce){.gh{transition:none;}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 </style>
@@ -25,7 +24,7 @@ canvas{position:fixed;display:block;image-rendering:pixelated;image-rendering:cr
 <body>
 <canvas id="cv" role="img" aria-label="Pixel-art Sepang circuit with F1 cars, the Hibiscus Tower and a countdown to the race"></canvas>
 <a class="gh" href="https://github.com/taylorling/sepang-f1-2026-countdown" target="_blank" rel="noopener" aria-label="View the source code on GitHub" title="View the source code on GitHub">
-  <svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  <img id="ghimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAs0lEQVR42q2UMQ7EIAwEw4oqUn5AnbyNe1DyNq72DyJdfRXSCq3Jgc5dwB7Z3iVhEbFu+7l04nO/X+1Z8ABmJStISselgKGFeAAPWGGYgXBurYUahdvvjcY10VtsD6bEid5IShmlqFnJKR0XZjpROfjVJ093WP4UGHW2d4eeP7iIv5U4UMszK1klq/Nai3Z5I/5hAdACqi9GbQCWlGFP7659tJHbW7f9ZNjUb8STuCarM44vlF2DlnSoInMAAAAASUVORK5CYII=" alt="" width="18" height="18">
 </a>
 <h1 class="sr">Countdown to the Formula 1 Gulf Air Bahrain Grand Prix in Malaysia at Sepang, Sunday 4 October 2026, lights out 3:00 pm Malaysia time</h1>
 <p class="sr" aria-live="polite" id="sr"></p>
@@ -91,6 +90,8 @@ async function init(){
   const ox = Math.floor((CW - Ws) / 2), oy = headroom;
   cv.width = CW; cv.height = CH;
   cv.style.width = CW * s + 'px'; cv.style.height = CH * s + 'px';
+  { const k = Math.max(1, Math.round(26 * dpr / 18)), g = document.getElementById('ghimg');
+    if (g){ g.style.width = g.style.height = (18 * k / dpr) + 'px'; } }
   cv.style.left = Math.floor((vw - CW * s) / 2) + 'px'; cv.style.top = Math.floor((vh - CH * s) / 2) + 'px';
   const TW = TILES[o].tw, BOT = 8;
   const hash = i => ((i * 2654435761) >>> 0) % 3;
